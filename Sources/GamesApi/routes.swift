@@ -49,7 +49,7 @@ app.get { req async in
     }
 
     app.delete("games",":id"){
-        req async throws -> Game in
+        req async throws -> HTTPStatus in
         guard let existingGame = try await Game.find(req.parameters.get("id"),on:req.db) else {
            throw Abort(.notFound,reason:"El registro no fue encontrado")
         }
