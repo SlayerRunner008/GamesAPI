@@ -48,6 +48,15 @@ app.get { req async in
         return ExistingGame
     }
 
+    app.delete("games",":id"){
+        req async throws -> Game in
+        guard let existingGame = try await Game.find(req.parameters.get("id"),on:req.db) else {
+           throw Abort(.notFound,reason:"El registro no fue encontrado")
+        }
+        try await existingGame.delete(on:req.db)
+        return .noContent
+    }
+
     
     try app.register(collection: TodoController())
 }
